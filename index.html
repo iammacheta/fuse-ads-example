@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head lang="en">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <script async src="https://cdn.fuseplatform.net/publift/tags/2/3412/fuse.js"></script>
     <script type="text/javascript" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" async></script>
     <script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
         data-ad-client="ca-pub-8162612196276154" async></script>
-    <script type="text/javascript">
-        window.googletag = window.googletag || { cmd: [] };
-        window.googletag?.cmd.push(function () {
-            window.googletag?.pubads().enableVideoAds();
-            window.googletag?.enableServices();
-        });
+    <style>
+        .fuseWrapper {
+            width: 336px;
+            height: 280px;
+            background: cyan;
+        }
 
+        #dropdown-content {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 const fuseTag = window.fusetag || (window.fusetag = { que: [] });
@@ -24,19 +29,45 @@
                 });
             }
         };
-    </script>
-    <style>
-        .fuseWrapper {
-            width: 336px;
-            height: 280px;
-            background: cyan;
+
+        function toggleDropdown() {
+            const dropdownContent = document.getElementById('dropdown-content');
+            const isDisplayed = dropdownContent.style.display === 'block';
+            dropdownContent.style.display = isDisplayed ? 'none' : 'block';
+
+            if (!isDisplayed) {
+                loadGoogleAds();
+            }
         }
-    </style>
+
+        function loadGoogleAds() {
+            if (!window.googletag) {
+                // Initialize Google Ad Manager only if it's not already initialized
+                window.googletag = window.googletag || { cmd: [] };
+                window.googletag.cmd.push(function () {
+                    window.googletag.pubads().enableSingleRequest();
+                    window.googletag.enableServices();
+                });
+            }
+
+            // Load and display the ad slot
+            window.googletag.cmd.push(function () {
+                const adSlot = window.googletag.defineSlot('/21974715207/web-test-horizontal-display-banner', [728, 90], 'ad-container')
+                    .addService(window.googletag.pubads());
+                window.googletag.display('ad-container');
+            });
+        }
+    </script>
 </head>
 
 <body>
     <div class="fuseWrapper">
         <div data-fuse="23022653873" id="first-body-ad" style="min-height: 90px"></div>
+    </div>
+
+    <button onclick="toggleDropdown()">Toggle Dropdown</button>
+    <div id="dropdown-content">
+        <div id="ad-container" style="min-height: 90px;"></div>
     </div>
 </body>
 
